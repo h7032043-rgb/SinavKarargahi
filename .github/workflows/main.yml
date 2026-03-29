@@ -1,0 +1,19 @@
+name: APK Basma Operasyonu
+on: [push, pull_request, workflow_dispatch]
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Buildozer ile APK Hazırla
+        uses: ArtemGrubnyak/buildozer-action@v1.6.1
+        with:
+          workdir: .
+          buildozer_version: master
+
+      - name: APK Dosyasını Teslim Et
+        uses: actions/upload-artifact@v4
+        with:
+          name: Sinav-Karargahi-APK
+          path: bin/*.apk
