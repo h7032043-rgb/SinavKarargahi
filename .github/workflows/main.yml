@@ -1,13 +1,14 @@
 name: APK Basma Operasyonu
-on: [push, pull_request, workflow_dispatch]
+on: [push, workflow_dispatch]
 
 jobs:
   build:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
       - name: Buildozer ile APK Hazırla
-        uses: ArtemGrubnyak/buildozer-action@v1.6.1
+        uses: Entepotence/buildozer-action@v1.2.2
         with:
           workdir: .
           buildozer_version: master
