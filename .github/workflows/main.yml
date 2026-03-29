@@ -7,21 +7,22 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Sistem Paketlerini Kur
+      - name: JDK 17 ve Sistem Paketleri Kur
         run: |
           sudo apt update
           sudo apt install -y git zip unzip autoconf cmake libtool pkg-config \
           python3-pip python3-setuptools python3-dev libncurses5-dev \
-          libncursesw5-dev zlib1g-dev libffi-dev libssl-dev \
-          openjdk-17-jdk ant
+          libncursesw5-dev zlib1g-dev libffi-dev libssl-dev ant \
+          openjdk-17-jdk libltdl-dev
 
-      - name: Buildozer ve Cython Kur
+      - name: Buildozer ve Cython Sabitle
         run: |
-          pip3 install --user --upgrade buildozer cython<3.0.0
+          pip3 install --user --upgrade "buildozer" "cython<3.0.0" "setuptools"
 
-      - name: APK'yı Bas (Sabırla Bekle)
+      - name: APK Bas (KivyMD Destekli)
         run: |
           export PATH=$PATH:$HOME/.local/bin
+          # KivyMD'nin Pillow hatası vermemesi için Android araçlarını zorla hazırla
           buildozer -v android debug
         continue-on-error: false
 
