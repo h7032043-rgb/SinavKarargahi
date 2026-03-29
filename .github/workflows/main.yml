@@ -7,11 +7,23 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Buildozer ile APK Hazırla
-        uses: Entepotence/buildozer-action@v1.2.2
-        with:
-          workdir: .
-          buildozer_version: master
+      - name: Sistem Paketlerini Kur
+        run: |
+          sudo apt update
+          sudo apt install -y git zip unzip autoconf cmake libtool pkg-config \
+          python3-pip python3-setuptools python3-dev libncurses5-dev \
+          libncursesw5-dev zlib1g-dev libffi-dev libssl-dev \
+          openjdk-17-jdk ant
+
+      - name: Buildozer ve Cython Kur
+        run: |
+          pip3 install --user --upgrade buildozer cython<3.0.0
+
+      - name: APK'yı Bas (Sabırla Bekle)
+        run: |
+          export PATH=$PATH:$HOME/.local/bin
+          buildozer -v android debug
+        continue-on-error: false
 
       - name: APK Dosyasını Teslim Et
         uses: actions/upload-artifact@v4
